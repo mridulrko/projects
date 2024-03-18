@@ -6,12 +6,8 @@ import com.interview.bitgo.models.Transaction;
 import com.interview.bitgo.models.TransactionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.interview.bitgo.service.TransactionService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 @RestController
@@ -66,23 +62,36 @@ public class MyController {
             for(String link : map.get(txid)) {
                 if(map.get(link) != null) {
                     count++;
-                    helper(map, link, count);
+                    count += helper(map, link);
                 }
             }
             answer.put(txid, count);
+            System.out.println("txid: " + txid + " count: " + count);
         }
 
+        Map<String, Integer> sortedMap = new LinkedHashMap<>();
+        answer.entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .forEachOrdered(e -> sortedMap.put(e.getKey(), e.getValue()));
+
+//        sortedMap.forEach((key, value) -> System.out.println(key + ": " + value));
         SortResponse sortResponse = new SortResponse();
-        sortResponse.setMap(answer);
+        sortResponse.setMap(sortedMap);
         return sortResponse;
     }
 
-    public void helper(Map<String, List<String>> map, String link, int count) {
+    public Integer helper(Map<String, List<String>> map, String link) {
+        Integer count = 0;
         for(String txn : map.get(link)) {
             if(map.get(txn) != null) {
                 count++;
-                helper(map, txn, count);
+                count += helper(map, txn);
             }
         }
+        System.out.printf(count + " ");
+        return count;
     }
+
+
 }
