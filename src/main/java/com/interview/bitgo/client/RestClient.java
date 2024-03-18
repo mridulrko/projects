@@ -51,7 +51,6 @@ public class RestClient {
                     System.out.println("Done for i -> "+ i);
                     transactions.addAll(transactionList);
                     i += 25;
-                    if(i>1000) break;
                 }
                 catch (HttpClientErrorException e) {
                     System.out.println("reached end on i -> " + i);
