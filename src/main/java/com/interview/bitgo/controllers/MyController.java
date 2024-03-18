@@ -40,13 +40,10 @@ public class MyController {
         Map<String, List<String>> map = new HashMap<>();
         Map<String, Integer> answer = new HashMap<>();
 
-
         for(Transaction transaction : response.getTransactions()) {
             List<Transaction> vin = transaction.getVin();
             List<String> txns = new ArrayList<>();
-            for(Transaction t : vin) {
-                txns.add(t.getTxid());
-            }
+            for(Transaction t : vin) txns.add(t.getTxid());
             map.put(transaction.getTxid(), txns);
         }
 
@@ -62,7 +59,7 @@ public class MyController {
             for(String link : map.get(txid)) {
                 if(map.get(link) != null) {
                     count++;
-                    count += helper(map, link);
+                    count += helper(map, link, answer);
                 }
             }
             answer.put(txid, count);
@@ -75,23 +72,23 @@ public class MyController {
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
                 .forEachOrdered(e -> sortedMap.put(e.getKey(), e.getValue()));
 
-//        sortedMap.forEach((key, value) -> System.out.println(key + ": " + value));
         SortResponse sortResponse = new SortResponse();
         sortResponse.setMap(sortedMap);
         return sortResponse;
     }
 
-    public Integer helper(Map<String, List<String>> map, String link) {
+    public Integer helper(Map<String, List<String>> map, String link, Map<String, Integer> answer) {
         Integer count = 0;
+        if(answer.get(link) != null) return answer.get(link);
+
         for(String txn : map.get(link)) {
             if(map.get(txn) != null) {
                 count++;
-                count += helper(map, txn);
+                count += helper(map, txn, answer);
             }
         }
+        answer.put(link, count);
         System.out.printf(count + " ");
         return count;
     }
-
-
 }
