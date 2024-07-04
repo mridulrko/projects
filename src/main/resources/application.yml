@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mridulDB
+    username: root
+    password: mridulmysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  active:
+    profiles: local
+
+  main:
+    allow-bean-definition-overriding: true
