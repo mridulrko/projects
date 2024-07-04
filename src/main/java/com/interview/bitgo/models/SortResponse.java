@@ -1,13 +1,11 @@
 package com.interview.bitgo.models;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL) // Include only non-null properties in JSON
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor

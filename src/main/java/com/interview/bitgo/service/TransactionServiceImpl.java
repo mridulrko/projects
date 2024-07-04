@@ -5,9 +5,11 @@ import com.interview.bitgo.models.SortResponse;
 import com.interview.bitgo.models.Transaction;
 import com.interview.bitgo.models.TransactionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class TransactionServiceImpl implements TransactionService {
 
     @Autowired
@@ -75,9 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 //        sortedMap.forEach((key, value) -> System.out.println(key + ": " + value));
 
-        SortResponse sortResponse = new SortResponse();
-        sortResponse.setMap(sortedMap);
-        return sortResponse;
+        return SortResponse.builder().map(sortedMap).build();
     }
 
     public Integer helper(Map<String, List<String>> map, String link) {
